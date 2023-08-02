@@ -1,4 +1,3 @@
-
     variable "sample" {
         default = "Welcome To Terraform"
     }
