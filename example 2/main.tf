@@ -1,28 +1,20 @@
-resource "aws_security_group" "allows_all" {
-  name        = "allows_tls"
-  description = "Allows SSH inbound traffic"
+/*
+This is an example of calling modules for a local source and hence we call them as local modules
+Modules can be in a separate repository or in the same directory where you actual code resides
+You can also save your modules in a S3 Bucket and can call it accordinly.
 
-  ingress {
-    description = "SSH from VPC"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+Root Module : Is a place where we are going to execure the terraform commands.
+ */
 
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "allows_tls"
-  }
+module "ec2" {
+  source = "./ec2"
+  sg     = module.sg.sgid                               # Step 2: Pass the output declared in the source module to this root module
 }
 
-# Step 1 : Declaring the output that we wish to pass to the root Module
-output "sgid" {
-    value = aws_security_group.allows_all.id
+module "sg" {
+  source = "./sg"
+}
+
+output "public_ip_address" {
+  value  = module.ec2.public_ip                          # This is going to fetch the declared output and prints
 }
