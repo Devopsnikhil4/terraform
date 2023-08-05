@@ -1,5 +1,5 @@
 resource "aws_route53_record" "component" {
-  zone_id = "Z06982071MSU6YCTWUDBT"
+  zone_id = "Z07295893SXFMOGLEWCVM"
   name    = var.COMPONENT
   type    = "A"
   ttl     = 10
